@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/songs.py",
+        "use": "@vercel/python"
+      },
+      {
+        "src": "public/index.html",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/songs.py"
+      }
+    ]
+  }
+  

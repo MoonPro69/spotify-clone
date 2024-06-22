@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple MP3 Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        li:hover {
+            color: blue;
+            text-decoration: underline;
+        }
+        audio {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>MP3 Player</h1>
+<ul id="mp3List">
+    <!-- MP3 files will be listed here -->
+</ul>
+<audio id="audioPlayer" controls></audio>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mp3List = document.getElementById('mp3List');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        fetch('/api/songs')
+            .then(response => response.json())
+            .then(files => {
+                files.forEach(file => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = file;
+                    listItem.onclick = () => {
+                        audioPlayer.src = `/songs/${file}`;
+                        audioPlayer.play();
+                    };
+                    mp3List.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching MP3 files:', error));
+    });
+</script>
+
+</body>
+</html>
